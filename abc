@@ -1,3 +1,4 @@
+grep -E "^\"[0-9]{8}\"|^{.*\"date\":\"[0-9]{8}\"}" file.json > new_file.json
 grep -E '^{.*"date":("[^"]*")?}' <filename> | awk -v d=<given_date> 'BEGIN{a[1]=substr(d,1,4);a[2]=substr(d,5,2);a[3]=substr(d,7,2);a[4]=substr(d,10,2);a[5]=substr(d,12,2);a[6]=substr(d,14,2)} {gsub(/"/,""); if(substr($0,3,8)>=d) print}'
 
 
