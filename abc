@@ -5,3 +5,4 @@ grep -E '^{.*"date":("[^"]*")?}' <filename> | awk -v d=<given_date> 'BEGIN{a[1]=
 grep -E "^\"(2022(02(28|[3-9]\d)|03\d|1[0-2]\d)|2023(0[1-9]|1[0-2])\d{2})\"|^.*\"date\":\"(2022(02(28|[3-9]\d)|03\d|1[0-2]\d)|2023(0[1-9]|1[0-2])\d{2})\"" file.json > new_file.json
 
 grep -E "^\"(2023(02(28|[3-9]\d)|03\d|1[0-2]\d)|2024(0[1-9]|1[0-2])\d{2})\"|^.*\"date\":\"(2023(02(28|[3-9]\d)|03\d|1[0-2]\d)|2024(0[1-9]|1[0-2])\d{2})\"" file.json > new_file.json
+while read -r line; do first_value=$(echo "$line" | cut -d: -f1 | sed 's/"//g'); if [ "$first_value" -ge 10 ]; then echo "$line" >> output.txt; fi; done < input.json
