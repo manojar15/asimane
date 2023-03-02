@@ -37,5 +37,9 @@ current_timestamp=$(date +%s); while IFS= read -r line; do line=$(echo "$line" |
 current_timestamp=$(date +%s); while IFS= read -r line; do line=$(echo "$line" | tr -d '\n'); timestamp=$(date -d "$(echo "$line" | grep -oE "[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{6}" | sed 's/\./ /')" +%s); seconds_since_timestamp=$((current_timestamp - timestamp)); seconds_in_7_days=$((7 * 24 * 60 * 60)); if [ "$seconds_since_timestamp" -gt "$seconds_in_7_days" ] && [ "$timestamp" -lt "$current_timestamp" ]; then continue; fi; first_key_value=$(echo "$line" | sed 's/^{\"\([^\"]*\)\":.*/\1/g'); echo "$first_key_value"; done < file.json > file_new.json && mv file_new.json file.json
 
 
+current_timestamp=$(date +%s); while IFS= read -r line; do line=$(echo "$line" | tr -d '\n'); timestamp=$(date -d "$(echo "$line" | grep -oE "[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}" | sed 's/\./ /')" +%s); if [ -z "$timestamp" ]; then continue; fi; seconds_since_timestamp=$((current_timestamp - timestamp)); seconds_in_7_days=$((7 * 24 * 60 * 60)); if [ "$seconds_since_timestamp" -gt "$seconds_in_7_days" ] && [ "$timestamp" -lt "$current_timestamp" ]; then continue; fi; first_key_value=$(echo "$line" | sed 's/^{\"\([^\"]*\)\":.*/\1/g'); echo "$first_key_value"; done < file.json > file_new.json && mv file_new.json file.json
+
+
+
 
 
