@@ -101,3 +101,6 @@ current_timestamp=$(date +%s); while IFS= read -r line; do line=$(echo "$line" |
 
 
 
+current_timestamp=$(date +%s); while IFS= read -r line; do timestamp=$(echo "$line" | sed -n 's/.*"CURRENT_TIMESTAMP":"\([^"]*\)".*/\1/p'); if [ -n "$timestamp" ]; then seconds_since_timestamp=$((current_timestamp - $(date -d "$timestamp" +%s))); seconds_in_7_days=$((7 * 24 * 60 * 60)); if [ "$seconds_since_timestamp" -gt "$seconds_in_7_days" ]; then continue; fi; echo "$line"; fi; done < file.json > file_new.json && mv file_new.json file.json
+
+
