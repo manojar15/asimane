@@ -7,3 +7,17 @@ grep -E "^\"(2022(02(28|[3-9]\d)|03\d|1[0-2]\d)|2023(0[1-9]|1[0-2])\d{2})\"|^.*\
 grep -E "^\"(2023(02(28|[3-9]\d)|03\d|1[0-2]\d)|2024(0[1-9]|1[0-2])\d{2})\"|^.*\"date\":\"(2023(02(28|[3-9]\d)|03\d|1[0-2]\d)|2024(0[1-9]|1[0-2])\d{2})\"" file.json > new_file.json
 while read -r line; do first_value=$(echo "$line" | cut -d: -f1 | sed 's/"//g'); if [ "$first_value" -ge 10 ]; then echo "$line" >> output.txt; fi; done < input.json
 folder="/path/to/folder"; threshold=10; for file in "$folder"/*; do temp_file="$(mktemp)"; while read line; do first_word="$(echo "$line" | cut -d':' -f1)"; if [[ "$first_word" -gt "$threshold" ]]; then echo "$line" >> "$temp_file"; fi; done < "$file"; mv "$temp_file" "$file"; done
+
+#!/bin/bash
+
+# Read the first line of the JSON file
+first_line=$(head -n 1 file.json)
+
+# Extract the first value of the first key in the first JSON object
+first_key=$(echo "$first_line" | sed 's/{.*//; s/.*"//; s/"//')
+first_value=$(echo "$first_line" | grep -o "\"$first_key\":.*" | cut -d: -f2- | sed 's/^[[:space:]]*//; s/[\",]*$//')
+
+# Print the first value
+echo "$first_value"
+
+
