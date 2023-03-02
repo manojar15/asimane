@@ -14,3 +14,5 @@ while read -r line; do echo "$line" | grep -o "\"[^\"]*\":.*" | sed -E 's/^[[:sp
 for file in /path/to/folder/*.json; do while read -r line; do echo "$line" | grep -o "\"[^\"]*\":.*" | sed -E 's/^[[:space:]]*"([^"]*)":[[:space:]]*"([^"]*)".*$/\2/'; done < "$file"; done
 
 for file in /path/to/folder/*.json; do while read -r line; do timestamp=$(echo "$line" | grep -o "\"[^\"]*\":\"[^\"]*T[^\"]*\"" | head -n1 | cut -d'"' -f4); if [ "$(date +%s -d "$timestamp")" -ge "$(date +%s -d "2023-03-02T00:00:00Z")" ]; then echo "$line" >> /path/to/newer_or_same_date.json; else echo "$line" >> /path/to/older_date.json; fi; done < "$file"; done
+
+current_timestamp=$(date +%s); while IFS= read -r line; do line=$(echo "$line" | tr -d '\n'); timestamp=$(echo "$line" | sed 's/.*"timestamp":\([0-9]*\).*/\1/g'); seconds_since_timestamp=$((current_timestamp - timestamp)); seconds_in_7_days=$((7 * 24 * 60 * 60)); if [ "$seconds_since_timestamp" -gt "$seconds_in_7_days" ]; then continue; fi; first_key_value=$(echo "$line" | sed 's/^{\"\([^\"]*\)\":.*/\1/g'); echo "$first_key_value"; done < file.json > file_new.json && mv file_new.json file.json
