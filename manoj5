@@ -28,3 +28,17 @@
   });
   </script>
 </select>
+
+
+<select name="myDropdown">
+  <option value="">Select a value...</option>
+  <script>
+    var myOptions = "<$myToken$>".split(",");
+    myOptions.forEach(function(option) {
+      var optionElement = document.createElement("option");
+      optionElement.text = option;
+      optionElement.value = option;
+      document.getElementsByName("myDropdown")[0].add(optionElement);
+    });
+  </script>
+</select>
