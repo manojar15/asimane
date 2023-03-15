@@ -1,0 +1,10 @@
+<ul>
+    <splunkjs>
+        require(['underscore'], function(_) {
+            var myList = _.template('$MyList$');
+            _(myList.split(",")).each(function(value) {
+                document.write('<li>' + value + '</li>');
+            });
+        });
+    </splunkjs>
+</ul>
