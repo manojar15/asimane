@@ -70,3 +70,13 @@
   <option value="<%=result.field_name%>"><%=result.field_name%></option>
   <% end %>
 </select>
+
+
+
+
+<dropdown id="project-dropdown" default="Select a project">
+  <label>Project Name:</label>
+  <choice value="">Select a project</choice>
+  <query>index=my_index | stats values(projectname) as projectname</query>
+  <choice value="$projectname$">$projectname$</choice>
+</dropdown>
