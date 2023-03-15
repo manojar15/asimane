@@ -58,3 +58,15 @@
     });
   </script>
 </select>
+
+
+
+
+
+
+<select>
+  <option>Select an option</option>
+  <% foreach result in results %>
+  <option value="<%=result.field_name%>"><%=result.field_name%></option>
+  <% end %>
+</select>
