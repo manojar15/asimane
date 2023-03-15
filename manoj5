@@ -6,3 +6,12 @@
     <% }); %>
   </select>
 </form>
+
+<form>
+  <select name="hosts">
+    <option value="">Select a host</option>
+    <% results["Search"].forEach(function(result) { %>
+      <option value="<%- result.host %>"><%- result.host %></option>
+    <% }); %>
+  </select>
+</form>
