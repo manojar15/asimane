@@ -1,0 +1,8 @@
+<form>
+  <select name="hosts">
+    <option value="">Select a host</option>
+    <% results["Host List"].forEach(function(result) { %>
+      <option value="<%= result.host %>"><%= result.host %></option>
+    <% }); %>
+  </select>
+</form>
