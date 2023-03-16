@@ -1,0 +1,7 @@
+index=your_index sourcetype=your_sourcetype
+| spath input=_raw
+| rename "TABLE_NAME" as first_table_name, "JOBID" as common_field_value
+| join common_field_value [search index=your_index sourcetype=your_sourcetype
+                          | spath input=_raw
+                          | rename "JOBID" as common_field_value, "other_field" as second_table_field]
+| table first_table_name, common_field_value, second_table_field
