@@ -104,3 +104,8 @@ index=your_index sourcetype=your_sourcetype
                           | rename "JOBID" as common_field_value, "JOBNAME" as second_job_name]
 | table first_table_name, common_field_value, first_job_name, second_job_name
 
+
+
+
+index=<your_index_name> sourcetype=<your_sourcetype_name> | rename TABLE_NAME as table_name, JOBNAME as job_name | join JOBID [ search index=<your_index_name> sourcetype=<your_sourcetype_name> | rename TABLE_NAME as table_name | fields - JOBID ] | table table_name, job_name, JOBID
+
