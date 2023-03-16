@@ -79,3 +79,16 @@ index=your_index sourcetype=your_sourcetype JOBID=*
          LASTUPDATETIMESTAMP, MASTERPID, NUMMESSAGESFATAL, NUMMESSAGESTOTAL, NUMMESSAGESWARNING, QUEUENAME, RUNENDTIMESTAMP,
          RUNID, RUNMAJORSTATUS, RUNMINORSTATUS, RUNSTARTTIMESTAMP, RUNTYPE, TOTALCPU, TOTALLOGICALNODES, TOTALPHYSICALNODES,
          TOTALROWSCONSUMED, TOTALROWSPRODUCED, USERSTATUS
+
+
+
+
+
+index=your_index sourcetype=your_sourcetype JOBID=-6666433463222951790
+| spath input=_raw
+| rename "TABLE_NAME" as first_table_name, "JOBID" as common_field_value
+| join common_field_value [search index=your_index sourcetype=your_sourcetype JOBID=-6666433463222951790
+                          | spath input=_raw
+                          | rename "TABLE_NAME" as second_table_name, "JOBID" as common_field_value]
+| stats values(*) as * by common_field_value
+| fields - _time
