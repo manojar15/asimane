@@ -92,3 +92,15 @@ index=your_index sourcetype=your_sourcetype JOBID=-6666433463222951790
                           | rename "TABLE_NAME" as second_table_name, "JOBID" as common_field_value]
 | stats values(*) as * by common_field_value
 | fields - _time
+
+
+
+
+index=your_index sourcetype=your_sourcetype
+| spath input=_raw
+| rename "TABLE_NAME" as first_table_name, "JOBID" as common_field_value, "JOBNAME" as first_job_name
+| join common_field_value [search index=your_index sourcetype=your_sourcetype
+                          | spath input=_raw
+                          | rename "JOBID" as common_field_value, "JOBNAME" as second_job_name]
+| table first_table_name, common_field_value, first_job_name, second_job_name
+
